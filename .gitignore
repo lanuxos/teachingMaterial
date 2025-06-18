@@ -1,13 +1,13 @@
-.pdf
-.doc
-.docx
-.xls
-.xlsx
-.ppt
-.pptx
-.zip
-.rar
-
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+*.zip
+*.rar
+*.mp*
 misc/
 
 .DS_Store 
