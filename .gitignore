@@ -8,6 +8,7 @@
 *.zip
 *.rar
 *.mp*
+*.png
 misc/
 
 .DS_Store 
