@@ -1,3 +1,41 @@
+/* 
+# mdn web docs - javascript guide
+
+## introduction
+- grammar and types
+- control flow and error handling
+- loops and iteration
+- functions
+- expression and operators
+- numbers and strings
+- representing dates and times
+- regular expressions
+- indexed collections
+- keyed collections
+- working with objects
+- using class
+- using promises
+- javascript typed arrays
+- iterator and generators
+- internationalization
+- javascript modules
+
+## intermediate
+- advanced javascript objects
+- asynchronous javascript
+- client side web apis
+- language overview
+- javascript data structures
+- equality comparisons and sameness
+- enumerability and ownership of properties
+- closures
+
+## advanced
+- inheritance and the prototype chain
+- meta programming
+- memory management
+*/
+
 var caseSensitive;
 var CaseSensitive;
 
