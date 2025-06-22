@@ -47,6 +47,57 @@ domForm.addEventListener("submit", function (event) {
     }
 });
 
+// form event
+/*
+<form id="eventForm">
+  <label for="email">Email</label>
+  <br>
+  <input type="email" id="email">
+  <br>
+  <label for="password1">Password</label>
+  <br>
+  <input type="password" name="password" id="password1">
+  <br>
+  <label for="password2">Re-password</label>
+  <br>
+  <input type="password" name="password" id="password2">
+  <br>
+  <button type="submit" id="signUp">Sign Up</button>
+  <p id="status"></p>
+</form>
+*/
+const eventForm = document.getElementById("eventForm");
+const email = document.getElementById("email");
+const [pass1, pass2] = document.getElementsByName("password");
+const msg = document.getElementById("status");
+eventForm.addEventListener("input", function () {
+    msg.innerText = "user is typing...";
+    if (pass1.value != "" && pass1.value === pass2.value) {
+        pass1.style.backgroundColor = "lightgreen";
+        pass2.style.backgroundColor = "lightgreen";
+    }
+});
+pass2.addEventListener("blur", function () {
+    msg.innerText = "";
+    pass1.style.backgroundColor = "";
+    pass2.style.backgroundColor = "";
+});
+eventForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (email.value != "" && pass1.value === pass2.value) {
+        alert("sign up successfully");
+    } else {
+        alert(
+            `check your info, email:[${email.value}] pass1:[${pass1.value}] pass2:[${pass2.value}]`
+        );
+    }
+});
+
+// fix eventForm bug with
+// add required attribute to input tag
+
+
 // regForm
 /*
 <form
@@ -109,7 +160,7 @@ domForm.addEventListener("submit", function (event) {
 */
 
 // input blur removeEventListener
-<input type="email" name="email" id="email" />
+// <input type="email" name="email" id="email" />
 
 const emailInput = document.getElementById("email");
 // input event
@@ -123,6 +174,10 @@ emailInput.addEventListener("blur", function () {
 
 // removeEventListener
 // remove after clicked three times
+/*
+<button id="myButton">Click Me</button>
+<p id="message"></p>
+*/
 const button = document.getElementById("myButton");
 const message = document.getElementById("message");
 
