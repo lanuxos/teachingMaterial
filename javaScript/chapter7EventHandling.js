@@ -17,23 +17,6 @@ function showDate() {
     showDateParagraph.innerHTML = dateNow.toLocaleString();
 }
 
-// getElementsByName
-{/* <input type="password" name="password" />
-    <input type="password" name="password" />
-
-    <button onclick="checkPasswords()">Check</button> */}
-
-function checkPasswords() {
-    const [pass1, pass2] = document.getElementsByName("password");
-    if (pass1.value === pass2.value) {
-        pass1.style.backgroundColor = 'lightgreen';
-        pass2.style.backgroundColor = 'lightgreen';
-    } else {
-        pass1.style.backgroundColor = 'lightyellow';
-        pass2.style.backgroundColor = 'lightyellow';
-    }
-}
-
 // event object
 // < button onclick = "showDate()" > Show Date()</ >
 // <p id="showDateParagraph"></p>
