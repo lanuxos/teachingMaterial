@@ -100,64 +100,152 @@ eventForm.addEventListener("submit", function (event) {
 
 // regForm
 /*
+<style>
+      .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+      }
+
+      input:invalid {
+        border-color: red;
+      }
+
+      input:valid {
+        border-color: green;
+      }
+    </style>
 <form
       id="regForm"
-      style="
-        width: 240px;
-        height: auto;
-        border: 2px solid lightblue;
-        border-radius: 10px;
-        padding: 20px;
-        background-color: aliceblue;
-      "
+      style="width: 240px; height: auto; border: 2px solid lightblue; border-radius: 10px; padding: 20px; background-color: aliceblue;"
     >
-      <input type="radio" name="title" id="mr" />
+      <input type="radio" name="title" id="mr" required/>
       <label for="mr">mr</label>
       <input type="radio" name="title" id="ms" />
       <label for="ms">ms</label>
       <br />
-      <label for="firstName">First Name</label>
-      <br />
-      <input type="text" id="firstName" name="firstName" required />
-      <br />
-      <label for="lastName">Last Name</label>
-      <br />
-      <input type="text" id="lastName" name="lastName" required />
-      <br />
-      <label for="email">Email</label>
-      <br />
-      <input
-        type="text"
-        id="email"
-        name="email"
-        pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-        required
-      />
-      <br />
-      <label for="password">Password</label>
-      <br />
-      <input
-        type="password"
-        id="password"
-        name="password"
-        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-        required
-      />
-      <br />
-      <label for="rePassword">Re-password</label>
-      <br />
-      <input type="password" id="rePassword" name="password" />
-      <br />
-      <label for="tel">Tel</label>
-      <br />
-      <input type="text" id="tel" name="tel" />
-      <br />
-      <input type="checkbox" name="accept" id="accept" required />
-      <label for="accept">I accept all the term of use and conditions.</label>
-      <br />
+
+      <label for="firstName">First Name</label><br />
+      <input type="text" id="firstName" name="firstName" required /><br />
+
+      <label for="lastName">Last Name</label><br />
+      <input type="text" id="lastName" name="lastName" required /><br />
+
+      <label for="email">Email</label><br />
+      <input type="text" id="email" name="email" required /><br />
+
+      <label for="password">Password</label><br />
+      <input type="password" id="password" name="password" required /><br />
+
+      <label for="rePassword">Re-password</label><br />
+      <input type="password" id="rePassword" name="password" /><br />
+
+      <label for="tel">Tel</label><br />
+      <input type="text" id="tel" name="tel" /><br />
+
+      <input type="checkbox" name="accept" id="accept" />
+      <label for="accept">I accept all the terms of use and conditions.</label><br />
+
       <button type="submit" id="register">Register</button>
     </form>
 */
+document.getElementById("regForm").addEventListener("submit", function (event) {
+    let isValid = true;
+
+    const errorMessages = document.querySelectorAll(".error-message");
+    errorMessages.forEach((msg) => msg.remove());
+
+    const title = document.querySelector('input[name="title"]:checked');
+    if (!title) {
+        isValid = false;
+        showError("title", "Please select a title (Mr/Ms).");
+    }
+
+    const firstName = document.getElementById("firstName").value.trim();
+    if (!firstName) {
+        isValid = false;
+        showError("firstName", "First name is required.");
+    }
+
+    const lastName = document.getElementById("lastName").value.trim();
+    if (!lastName) {
+        isValid = false;
+        showError("lastName", "Last name is required.");
+    }
+
+    const email = document.getElementById("email").value.trim();
+    const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
+    if (!email || !emailPattern.test(email)) {
+        isValid = false;
+        showError("email", "Please enter a valid email.");
+    }
+
+    const password = document.getElementById("password").value;
+    const passwordPattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+    if (!password || !passwordPattern.test(password)) {
+        isValid = false;
+        showError("password", "Password must be at least 8 characters long and include uppercase, lowercase, and a number.");
+    }
+
+    const rePassword = document.getElementById("rePassword").value;
+    if (rePassword !== password) {
+        isValid = false;
+        showError("rePassword", "Passwords do not match.");
+    }
+
+    const tel = document.getElementById("tel").value.trim();
+    if (tel && !/^\d+$/.test(tel)) {
+        isValid = false;
+        showError("tel", "Phone number must be numbers only.");
+    }
+
+    const acceptTerms = document.getElementById("accept").checked;
+    if (!acceptTerms) {
+        isValid = false;
+        showError("accept", "You must accept the terms and conditions.");
+    }
+
+    if (!isValid) {
+        event.preventDefault();
+    } else {
+        alert("Your registration form is recorded.");
+    }
+});
+
+function showError(inputId, message) {
+    const inputField = document.getElementById(inputId);
+    const errorMessage = document.createElement("div");
+    errorMessage.classList.add("error-message");
+    errorMessage.style.color = "red";
+    errorMessage.innerText = message;
+    inputField.insertAdjacentElement("afterend", errorMessage);
+    inputField.style.borderColor = "red"; // Add red border for error
+}
+
+// Real-time password matching check
+document.getElementById("rePassword").addEventListener("input", function () {
+    const password = document.getElementById("password").value;
+    const rePassword = this.value;
+
+    // Check if passwords match and update UI
+    if (rePassword !== password) {
+        showError("rePassword", "Passwords do not match.");
+        clearError("rePassword");
+    } else {
+        clearError("rePassword");
+        document.getElementById("rePassword").style.borderColor = "green"; // Set green border for matching passwords
+    }
+});
+
+function clearError(inputId) {
+    const inputField = document.getElementById(inputId);
+    const errorMessages = inputField.nextElementSibling;
+    if (errorMessages && errorMessages.classList.contains("error-message")) {
+        errorMessages.remove();
+    }
+    inputField.style.borderColor = "green"; // Set green border for valid input
+}
+
 
 // input blur removeEventListener
 // <input type="email" name="email" id="email" />
