@@ -1,7 +1,7 @@
 # counterClick.py
 import glob
 from tkinter import *
-from tkinter import font
+from tkinter import font, messagebox
 
 
 def font_resize(event):
@@ -31,11 +31,31 @@ def increase(team):
     global a_score
     global b_score
     if (team == 'a'):
-        a_score += 1
+        a_score = min(int(goal.get()), a_score + 1)
         a_sco.config(text=a_score)
     elif (team == 'b'):
-        b_score += 1
+        b_score = min(int(goal.get()), b_score + 1)
         b_sco.config(text=b_score)
+    if a_score == int(goal.get()):
+        winner = messagebox.askyesno('Reset', f'Team A_{a.get()} WIN!!!\nReset score?')
+        if winner:
+            a_score = 0
+            b_score = 0
+            a_sco.config(text=0)
+            b_sco.config(text=0)
+        else:
+            a_score -= 1
+            a_sco.config(text=a_score)
+    elif b_score == int(goal.get()):
+        winner = messagebox.askyesno('Reset', f'Team B_{b.get()} WIN!!!\nReset score?')
+        if winner:
+            a_score = 0
+            b_score = 0
+            a_sco.config(text=0)
+            b_sco.config(text=0)
+        else:
+            b_score -= 1
+            b_sco.config(text=b_score)
 
 def decrease(team):
     global a_score, b_score
