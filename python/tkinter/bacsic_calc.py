@@ -1,5 +1,12 @@
 # basic_calc.py
-from pydoc import text
+'''
+UI
+button_click
+clear_button
+calculate
+keypress
+font_resize
+'''
 from tkinter import *
 from tkinter import font
 
@@ -8,6 +15,26 @@ def button_click(number):
     current = display.get()
     display.delete(0, END)
     display.insert(END, current + str(number))
+
+
+def button_clear_function():
+    display.delete(0, END)
+
+
+def calc():
+    try:
+        express = display.get()
+        result = eval(express)
+        display.delete(0, END)
+        display.insert(0, result)
+    except:
+        """
+        eval("5 +")
+        eval("5 / 0")
+        ...
+        """
+        display.delete(0, END)
+        display.insert(0, "Error")
 
 
 def handle_keypress(event):
@@ -33,21 +60,6 @@ def handle_keypress(event):
         display.insert(0, current[:-1])
 
 
-def button_clear_function():
-    display.delete(0, END)
-
-
-def calc():
-    try:
-        express = display.get()
-        result = eval(express)
-        display.delete(0, END)
-        display.insert(0, result)
-    except:
-        display.delete(0, END)
-        display.insert(0, 'Error')
-
-
 def font_resize(event):
     # resize = max(10, int(event.height / 10))
     resize = max(10, min(48, int(event.height // 5)))
@@ -67,7 +79,7 @@ for i in range(5):  # 5 rows
 for i in range(4):  # 4 cols
     root.grid_columnconfigure(i, weight=1, uniform="cols")
 
-display = Entry(root, width=30, borderwidth=5)
+display = Entry(root, width=30, borderwidth=5, font=dynamic_font)
 display.grid(row=0, column=0, columnspan=3, padx=10, pady=10, sticky="nsew")
 
 button_clear_function_widget = Button(
@@ -129,7 +141,7 @@ b_equal.grid(row=4, column=2, padx=5, pady=5)
 b_plus = Button(root, text='+', padx=20, pady=20, command=lambda x='+': button_click(x), font=dynamic_font)
 b_plus.grid(row=4, column=3, padx=5, pady=5)
 
-root.bind('<Configure>', font_resize)
 root.bind('<Key>', handle_keypress)
+root.bind('<Configure>', font_resize)
 
 root.mainloop()
